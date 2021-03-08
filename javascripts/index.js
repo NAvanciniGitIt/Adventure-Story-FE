@@ -2,6 +2,19 @@ let user = ""
 
 let avatar = ""
 
+function rollDie() {
+  min = Math.ceil(1);
+  max = Math.floor(7);
+  return Math.floor(Math.random() * (7 - 1) + 1); //The maximum is exclusive and the minimum is inclusive
+}
+
+function rollDisplay() {
+  resetMain()
+  main().innerHTML = `
+  ${rollDie()}
+  `
+}
+
 function main() {
   return document.getElementById("main")
 }
@@ -16,32 +29,42 @@ function nameInput() {
 
 function archer() {
   avatar = "<img src='avatars/Archer.png'>"
-  return false
+  renderPartOne()
 }
 
 function basic() {
   avatar = "<img src='avatars/Basic.png'>"
-  return false
+  renderPartOne()
 }
 
 function mage() {
   avatar = "<img src='avatars/Mage.png'>"
-  return false
+  renderPartOne()
 }
 
 function science() {
   avatar = "<img src='avatars/Science.png'>"
-  return false
+  renderPartOne()
 }
 
 function rogue() {
   avatar = "<img src='avatars/Rogue.png'>"
-  return false
+  renderPartOne()
 }
 
 function sword() {
   avatar = "<img src='avatars/Sword.png'>"
-  return false
+  renderPartOne()
+}
+
+function ride() {
+  bus.chosen = true
+  renderPartTwo("ride")
+}
+
+function walk() {
+  bar.chosen = true
+  renderPartTwo("walk")
 }
 
 function form() {
@@ -90,6 +113,29 @@ function avatarTemplate() {
   `;
 }
 
+function rollTemplate() {
+  return `
+  <h3> Skill Check! </h3>
+  <input type="hidden" id="roll" >
+  <input type="submit" value="Roll" onclick="return rollDisplay()">
+  `
+}
+
+function optionTemplate(){
+  return `
+    <h3> Make a choice, ${user}! </h3> 
+    ${bus.name} <input type="hidden" id="bus" >
+    <input type="submit" value="Option 1" onclick="return ride()"> &nbsp;
+
+    ${bar.name} <input type="hidden" id="bar" >
+    <input type="submit" value="Option 2" onclick="return walk()">
+
+  `
+}
+
+function optionTwoTemplate() {
+
+}
 
 function renderNameTemplate() {
   resetMain()
@@ -109,18 +155,49 @@ function submitName(e) {
   renderAvatarTemplate()
 }
 
-function renderStory() {
+function renderPartOne() {
   resetMain()
-  return `
+  main().innerHTML =
+   `<h3>Adventure awaits ${user}!</h3> <br> 
     ${avatar}
+    <img src="backgrounds/pixelforest.jpg"  width="400" height="200">
+    <br>
+   Filler Text
+
+   Choices
+    ${optionTemplate()}
+
   `
 }
+
+function renderPartTwo(option) {
+  resetMain()
+  if(option == "walk") {
+    main().innerHTML = `
+    <h3> Filler Text for option 2 
+    
+    Roll</h3>
+    ${rollTemplate()}
+
+    `
+  }
+    if(option == "ride") {
+      main().innerHTML = `
+      <h3>Filler text for option 1 </h3>
+      `
+    }
+
+    else {
+      main().innerHTML
+    }
+  }
+
 
 document.addEventListener("DOMContentLoaded", function() { 
   if(user == "") {
     renderNameTemplate()
   }
   else {
-   renderStory
+
   }
 })
