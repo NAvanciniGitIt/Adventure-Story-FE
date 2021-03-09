@@ -1,5 +1,7 @@
-const story = []
-const user = []
+let story = []
+let users = []
+let current_user = ""
+const baseUrl = "http://localhost:3000"
 let avatar = ""
 
 function rollDie() {
@@ -71,8 +73,29 @@ function form() {
   return document.getElementById("form")
 }
 
-function getUserName(input) {
-  user = input
+async function getUsers() {
+ 
+  const resp = await fetch(baseUrl + '/users')
+  const data = await resp.json()
+  
+  users = data
+  
+}
+
+function storyTemplate() {
+  return ` <h2>Welcome Adventurer!</h2><br>
+  Would you like to begin a new adventure <input type="submit" value="Yes" onclick="return renderNameTemplate()">
+  
+  Or enter name to continue?
+  <form id="form">
+    <div class="input-field">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name">
+    </div>
+    <input type="submit" value="Continue">
+  </form>
+
+  `
 }
 
 function nameTemplate() {
@@ -123,7 +146,7 @@ function rollTemplate() {
 
 function choiceTemplate(){
   return `
-    <h3> Make a choice, ${user}! </h3> 
+    <h3> Make a choice, user! </h3> 
     ${bus.name} <input type="hidden" id="bus" >
     <input type="submit" value="Choice 1" onclick="return ride()"> &nbsp;
 
@@ -137,6 +160,12 @@ function choiceTwoTemplate() {
 
 }
 
+function renderStoryTemplate() {
+  resetMain()
+  main().innerHTML = storyTemplate()
+  form().addEventListener("submit", findName)
+}
+
 function renderNameTemplate() {
   resetMain()
   main().innerHTML = nameTemplate()
@@ -148,17 +177,53 @@ function renderAvatarTemplate() {
   main().innerHTML = avatarTemplate()
 }
 
+function findName(e) {
+  e.preventDefault()
+  let name = nameInput().value
+  users.forEach(function (user){
+    if(name == user.name){
+      current_user = user.name
+      renderAvatarTemplate()
+    }
+  })
+
+  }
+
 function submitName(e) {
   e.preventDefault()
-  user = nameInput().value
+
+  let strongParams = {
+    user: {
+      name: nameInput().value
+    }
+  }
   
-  renderAvatarTemplate()
+  current_user = nameInput().value
+ 
+
+  fetch(baseUrl + '/users', {
+    body: JSON.stringify(strongParams),
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    }
+  })
+  .then(function(resp){
+    return resp.json()
+  })
+  .then(function(data){
+    users.push(data)
+    renderAvatarTemplate()
+    
+  })
+
 }
 
 function renderPartOne() {
   resetMain()
   main().innerHTML =
-   `<h3>Adventure awaits ${user}!</h3> <br> 
+   `<h3>Adventure awaits ${current_user}!</h3> <br> 
     ${avatar}
     <img src="backgrounds/pixelforest.jpg"  width="400" height="200">
     <br>
@@ -194,8 +259,10 @@ function renderPartTwo(choice) {
 
 
 document.addEventListener("DOMContentLoaded", function() { 
-  if(user.length == 0) {
-    renderNameTemplate()
+  if(users.length == 0) {
+    renderStoryTemplate()
+    // renderNameTemplate()
+    getUsers()
   }
   else {
 
