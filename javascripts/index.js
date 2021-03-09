@@ -1,5 +1,5 @@
-let user = ""
-
+const story = []
+const user = []
 let avatar = ""
 
 function rollDie() {
@@ -121,19 +121,19 @@ function rollTemplate() {
   `
 }
 
-function optionTemplate(){
+function choiceTemplate(){
   return `
     <h3> Make a choice, ${user}! </h3> 
     ${bus.name} <input type="hidden" id="bus" >
-    <input type="submit" value="Option 1" onclick="return ride()"> &nbsp;
+    <input type="submit" value="Choice 1" onclick="return ride()"> &nbsp;
 
     ${bar.name} <input type="hidden" id="bar" >
-    <input type="submit" value="Option 2" onclick="return walk()">
+    <input type="submit" value="Choice 2" onclick="return walk()">
 
   `
 }
 
-function optionTwoTemplate() {
+function choiceTwoTemplate() {
 
 }
 
@@ -165,25 +165,25 @@ function renderPartOne() {
    Filler Text
 
    Choices
-    ${optionTemplate()}
+    ${choiceTemplate()}
 
   `
 }
 
-function renderPartTwo(option) {
+function renderPartTwo(choice) {
   resetMain()
-  if(option == "walk") {
+  if(choice == "walk") {
     main().innerHTML = `
-    <h3> Filler Text for option 2 
+    <h3> Filler Text for choice 2 
     
     Roll</h3>
     ${rollTemplate()}
 
     `
   }
-    if(option == "ride") {
+    if(choice == "ride") {
       main().innerHTML = `
-      <h3>Filler text for option 1 </h3>
+      <h3>Filler text for choice 1 </h3>
       `
     }
 
@@ -194,7 +194,7 @@ function renderPartTwo(option) {
 
 
 document.addEventListener("DOMContentLoaded", function() { 
-  if(user == "") {
+  if(user.length == 0) {
     renderNameTemplate()
   }
   else {
