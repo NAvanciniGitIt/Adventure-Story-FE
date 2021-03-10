@@ -1,13 +1,22 @@
-let story = []
-let users = []
+let stories = [];
+let users = [];
 let current_user = ""
+let current_story = ""
 const baseUrl = "http://localhost:3000"
 let avatar = ""
+const archerPic = "<img src='avatars/Archer.png'></img>"
+const basicPic = "<img src='avatars/Basic.png'>"
+const magePic = "<img src='avatars/Mage.png'>"
+const sciencePic = "<img src='avatars/Science.png'>"
+const roguePic = "<img src='avatars/Rogue.png'>"
+const swordPic = "<img src='avatars/Sword.png'>"
+
 
 function rollDie() {
   min = Math.ceil(1);
   max = Math.floor(7);
   return Math.floor(Math.random() * (7 - 1) + 1); //The maximum is exclusive and the minimum is inclusive
+
 }
 
 function rollDisplay() {
@@ -15,62 +24,69 @@ function rollDisplay() {
   main().innerHTML = `
   ${rollDie()}
   `
+
 }
 
 function main() {
   return document.getElementById("main")
+
 }
 
 function resetMain() {
   main().innerHTML = ""
+
 }
 
 function nameInput() {
   return document.getElementById("name")
+
 }
 
 function archer() {
-  avatar = "<img src='avatars/Archer.png'>"
-  renderPartOne()
+  avatarFetch(archerPic)
+
 }
 
 function basic() {
-  avatar = "<img src='avatars/Basic.png'>"
-  renderPartOne()
+  avatarFetch(basicPic)
+
 }
 
 function mage() {
-  avatar = "<img src='avatars/Mage.png'>"
-  renderPartOne()
+  avatarFetch(magePic)
+
 }
 
 function science() {
-  avatar = "<img src='avatars/Science.png'>"
-  renderPartOne()
+  avatarFetch(sciencePic)
+
 }
 
 function rogue() {
-  avatar = "<img src='avatars/Rogue.png'>"
-  renderPartOne()
+  avatarFetch(roguePic)
+
 }
 
 function sword() {
-  avatar = "<img src='avatars/Sword.png'>"
-  renderPartOne()
+  avatarFetch(swordPic)
+
 }
 
 function ride() {
   bus.chosen = true
   renderPartTwo("ride")
+
 }
 
 function walk() {
   bar.chosen = true
   renderPartTwo("walk")
+
 }
 
 function form() {
   return document.getElementById("form")
+
 }
 
 async function getUsers() {
@@ -81,6 +97,34 @@ async function getUsers() {
   users = data
   
 }
+
+function createStoryObj() {
+
+  let strongParams = {
+    story: {
+      user_id: "",
+      check_points: 0
+    }
+  }
+
+  fetch(baseUrl + "/stories", {
+    body: JSON.stringify(strongParams),
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    }
+  })
+  .then(function (resp){
+    return resp.json()
+  })
+  .then(function (data){
+    stories.push(data)
+    current_story = data
+  })
+
+}
+
 
 function storyTemplate() {
   return ` <h2>Welcome Adventurer!</h2><br>
@@ -96,6 +140,7 @@ function storyTemplate() {
   </form>
 
   `
+
 }
 
 function nameTemplate() {
@@ -110,6 +155,7 @@ function nameTemplate() {
       <input type="submit" value="Create Hero">
     </form>  
   `;
+
 }
 
 function avatarTemplate() {
@@ -134,14 +180,16 @@ function avatarTemplate() {
   <input type="hidden" id="avatar" value="<img src='avatars/Sword.png'>">
   <input type="submit" value="Choose" onclick="return sword()">
   `;
+
 }
 
 function rollTemplate() {
   return `
   <h3> Skill Check! </h3>
   <input type="hidden" id="roll" >
-  <input type="submit" value="Roll" onclick="return rollDisplay()">
+  <button onclick="return rollDisplay()" id="Ok"><img src="avatars/dice.jpg" width="50" height="50"></button>
   `
+
 }
 
 function choiceTemplate(){
@@ -154,6 +202,7 @@ function choiceTemplate(){
     <input type="submit" value="Choice 2" onclick="return walk()">
 
   `
+
 }
 
 function choiceTwoTemplate() {
@@ -164,17 +213,20 @@ function renderStoryTemplate() {
   resetMain()
   main().innerHTML = storyTemplate()
   form().addEventListener("submit", findName)
+
 }
 
 function renderNameTemplate() {
   resetMain()
   main().innerHTML = nameTemplate()
   form().addEventListener("submit", submitName)
+
 }
 
 function renderAvatarTemplate() {
   resetMain()
   main().innerHTML = avatarTemplate()
+  
 }
 
 function findName(e) {
@@ -182,8 +234,8 @@ function findName(e) {
   let name = nameInput().value
   users.forEach(function (user){
     if(name == user.name){
-      current_user = user.name
-      renderAvatarTemplate()
+      current_user = user
+      renderPartOne()
     }
   })
 
@@ -194,11 +246,11 @@ function submitName(e) {
 
   let strongParams = {
     user: {
-      name: nameInput().value
+      name: nameInput().value,
+      avatar: ""
     }
   }
   
-  current_user = nameInput().value
  
 
   fetch(baseUrl + '/users', {
@@ -216,6 +268,8 @@ function submitName(e) {
     users.push(data)
     renderAvatarTemplate()
     
+    current_user = data
+    storiesFetch()
   })
 
 }
@@ -223,8 +277,8 @@ function submitName(e) {
 function renderPartOne() {
   resetMain()
   main().innerHTML =
-   `<h3>Adventure awaits ${current_user}!</h3> <br> 
-    ${avatar}
+   `<h3>Adventure awaits ${current_user.name}!</h3> <br> 
+    ${current_user.avatar}
     <img src="backgrounds/pixelforest.jpg"  width="400" height="200">
     <br>
    Filler Text
@@ -256,6 +310,65 @@ function renderPartTwo(choice) {
       main().innerHTML
     }
   }
+
+  function avatarFetch(pic) {
+
+    strongParams = {
+      user: {
+        name: current_user.name,
+        avatar: pic
+      }
+    }
+  
+    fetch(baseUrl + `/users/${current_user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(strongParams)
+    })
+    .then(function(resp) {
+      return resp.json()
+    })
+    .then(function(data){
+      users.forEach(function(user){
+        if(current_user.name == user.name){
+          current_user.avatar = pic
+          renderPartOne()
+        }
+      })
+    })
+  
+  }
+  
+  function storiesFetch(user_id) {
+  
+    strongParams = {
+      story: {
+        user_id: current_user.id,
+        check_points: 0
+      }
+    }
+  
+  
+    fetch(baseUrl + `/stories/${current_story.id}`, {
+      method: "PATCH",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(strongParams)
+    })
+    .then(function(resp) {
+      return resp.json()
+    })
+    .then(function(data){
+      current_story = data
+    })
+  
+  }
+  
 
 
 document.addEventListener("DOMContentLoaded", function() { 
