@@ -2,7 +2,6 @@ class Story {
   static all = []
 
   constructor(attr){
-    this.user_id = attr.user_id;
     this.check_points = attr.check_points;
   }
 
@@ -17,6 +16,7 @@ class Story {
     return story
 
   }
+
 
   static createStoryObj() {
   
@@ -33,6 +33,13 @@ class Story {
         current_story = data
       })
 
+  }
+
+  static async getStories() {
+ 
+    const data = await Api.get("/stories");
+    Story.all = data
+    
   }
 
   static storyTemplate() {
@@ -98,6 +105,22 @@ class Story {
       main().innerHTML
     }
   
+  }
+
+  static updateCheckPoint(checkpoint) {
+
+    let strongParams = {
+
+      story: {
+        check_points: checkpoint
+      }
+    }
+
+    Api.patch(`/stories/${current_story.id}`, strongParams) 
+    .then(function(data) {
+      current_story.check_points = data.check_points
+    })
+
   }
   
 }
