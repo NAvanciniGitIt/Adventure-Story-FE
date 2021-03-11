@@ -40,7 +40,7 @@ class User {
       User.all.push(data)
       User.renderAvatarTemplate()
       current_user = data
-      Story.storiesFetch()
+      storiesFetch()
     })
   }
 
@@ -92,6 +92,7 @@ class User {
     Story.createStoryObj()
     main().innerHTML = User.nameTemplate()
     form().addEventListener("submit", User.submitName)
+    
   
   }
 
@@ -108,11 +109,50 @@ class User {
   
   }
 
+  static findsName() {
+
+    
+    let name = deleteName().value
+    
+    User.all.forEach(function (user){
+      if(name == user.name){
+        name = user
+      }
+    })
+    return name
+  }
+
   static renderAvatarTemplate() {
 
     resetMain()
     main().innerHTML = User.avatarTemplate()
    
+  }
+
+  static confirmUserForm() {
+    
+    return `
+    <h3> Alright ${current_user.name}! Are you satisfied 
+    with your hero?! </h3>
+   
+  
+    <input type="submit" value="Yes i'm ready!" onclick="return Story.renderPartOne()">
+    <br><br>
+    
+    <form id="delete">
+      <div class="input-field">
+        <label for="delete">Type name to Delete</label> <br>
+        <input type="text" name="deletename" id="deletename">
+      </div>
+      <input type="submit" value="Are you sure?">
+    </form>
+    `
+  }
+
+  static renderConfirmUserForm() {
+    resetMain()
+    main().innerHTML = User.confirmUserForm()
+    deletes().addEventListener("submit", User.deleteUser)
   }
 
   static avatarFetch(pic) {
@@ -133,6 +173,24 @@ class User {
           }
         })
       })
+  }
+
+  static async deleteUser(e) {
+
+    e.preventDefault()
+   
+    let user = User.findsName()
+    
+    
+    const data = await Api.delete(baseUrl + "/users/" + `${user.id}`)
+   
+    User.all = User.all.filter(function(user) {
+  
+      return user.id !== data.id
+    })
+    
+
+    Story.renderStoryTemplate()
   }
   
 }
