@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
   if(User.all.length == 0) {
     User.getUsers()
     Story.renderStoryTemplate()
-    // renderNameTemplate()
   }
   else {
 
