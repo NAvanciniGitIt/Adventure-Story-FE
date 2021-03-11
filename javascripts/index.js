@@ -35,38 +35,39 @@ function rollTemplate() {
 
 }
 
-  function storiesFetch(user_id) {
+  // function storiesFetch(user_id) {
   
-    strongParams = {
-      story: {
-        user_id: current_user.id,
-        check_points: 0
-      }
-    }
+  //   strongParams = {
+  //     story: {
+  //       user_id: current_user.id,
+  //       check_points: 0
+  //     }
+  //   }
   
   
-    fetch(baseUrl + `/stories/${current_story.id}`, {
-      method: "PATCH",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(strongParams)
-    })
-    .then(function(resp) {
-      return resp.json()
-    })
-    .then(function(data){
-      Story.current_story = data
-    })
+  //   fetch(baseUrl + `/stories/${current_story.id}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Accept": "application/json",
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(strongParams)
+  //   })
+  //   .then(function(resp) {
+  //     return resp.json()
+  //   })
+  //   .then(function(data){
+  //     Story.current_story = data
+  //   })
   
-  }
+  // }
   
 
 document.addEventListener("DOMContentLoaded", function() { 
   if(User.all.length == 0) {
     User.getUsers()
     Story.renderStoryTemplate()
+    Story.getStories()
   }
   else {
 
