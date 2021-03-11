@@ -1,10 +1,11 @@
-
 class User {
+
   static baseUrl = "http://localhost:3000"
   static all = []
 
-  constructor(name) {
-    this.name = name;
+  constructor(attr) {
+    this.name = attr.name;
+    this.story_id = attr.story_id
   }
 
   save() {
@@ -30,6 +31,7 @@ class User {
     let strongParams = {
       user: {
         name: nameInput().value,
+        story_id: current_story.id,
         avatar: ""
       }
     }
@@ -40,7 +42,6 @@ class User {
       User.all.push(data)
       User.renderAvatarTemplate()
       current_user = data
-      storiesFetch()
     })
   }
 
@@ -87,6 +88,57 @@ class User {
   
   }
 
+  static editFormTemplate(id) {
+
+    return `
+    <h3>Edit Hero</h3>
+    <form id="form" data-id="${id}">
+      <div class="input-field">
+        <label for="name">Name</label> <br><br>
+        <input type="text" name="name" id="name" value="${current_user.name}" />
+      </div>
+      <input type="submit" id="submit" value="Submit" >
+    
+    `;
+
+  }
+
+  static renderEditFormTemplate(user) {
+    
+    resetMain();
+    main().innerHTML = User.editFormTemplate(user);
+    form().addEventListener("submit", User.submitEditForm);
+  }
+
+
+  static submitEditForm(e) {
+
+    e.preventDefault();
+  
+    let strongParams = {
+      user: {
+        name: nameInput().value,
+        avatar: "",
+        story_id: current_user.story_id
+      }
+    }
+   
+
+    const id = e.target.dataset.id;
+    
+    Api.patch("/users/" + id, strongParams)
+      .then(function(data) {
+        
+        let u = User.all.find((u) => u.id == data.id);
+        let idx = User.all.indexOf(u);
+        User.all[idx] = new User(data);
+        current_user.name = nameInput().value
+        User.renderAvatarTemplate()
+        
+      })
+
+  }
+
   static renderNameTemplate() {
 
     resetMain()
@@ -104,10 +156,32 @@ class User {
     User.all.forEach(function (user){
       if(name == user.name){
         current_user = user
-        Story.renderPartOne()
+        User.findStory()
       }
     })
   
+  }
+
+  static findStory() {
+    
+    Story.all.forEach(function (story){
+      if(story.id == current_user.story_id) {
+        current_story = story
+        User.findPart()
+      }
+    })
+  }
+
+  static findPart() {
+    const check = current_story.check_points
+    switch(check) {
+      case 2:
+        Story.renderPartTwo("horse")
+        break
+      default:
+        Story.renderPartOne()
+    }
+
   }
 
   static findsName() {
@@ -139,7 +213,8 @@ class User {
   
     <input type="submit" value="Yes i'm ready!" onclick="return Story.renderPartOne()">
     <br><br>
-    
+    <input type="submit" value="Edit" onclick="return User.renderEditFormTemplate(${current_user.id})">
+    <br><br>
     <form id="delete">
       <div class="input-field">
         <label for="delete">Type name to Delete</label> <br>
@@ -158,7 +233,7 @@ class User {
 
   static avatarFetch(pic) {
 
-    strongParams = {
+    let strongParams = {
       user: {
         name: current_user.name,
         avatar: pic
