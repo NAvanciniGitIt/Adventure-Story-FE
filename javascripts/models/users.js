@@ -61,7 +61,7 @@ class User {
   }
 
   static avatarTemplate() {
-
+    
     return `
     <h3>Choose your Avatar</h3> 
   <img src="avatars/Archer.png">
@@ -82,6 +82,7 @@ class User {
   <img src="avatars/Sword.png">
   <input type="hidden" id="avatar" value="<img src='avatars/Sword.png'>">
   <input type="submit" value="Choose" onclick="return sword()">
+
   `;
   
   }
@@ -169,7 +170,7 @@ class User {
         User.all.forEach(function(user){
           if(current_user.name == user.name){
             current_user.avatar = pic
-            Story.renderPartOne()
+            User.renderConfirmUserForm()
           }
         })
       })
