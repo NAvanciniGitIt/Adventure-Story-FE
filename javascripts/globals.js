@@ -15,6 +15,8 @@ const swordPic = "<img src='avatars/Sword.png'>"
 const main = () => document.getElementById("main");
 const form = () => document.getElementById("form");
 const nameInput = () => document.getElementById("name");
+const deletes = () => document.getElementById("delete");
+const deleteName = () => document.getElementById("deletename");
 
 
 
