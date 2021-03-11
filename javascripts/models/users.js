@@ -183,7 +183,7 @@ class User {
     let user = User.findsName()
     
     
-    const data = await Api.delete(baseUrl + "/users/" + `${user.id}`)
+    const data = await Api.delete(baseUrl + "/users/" + `${current_user.id}`)
    
     User.all = User.all.filter(function(user) {
   
