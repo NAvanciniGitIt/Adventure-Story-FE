@@ -5,6 +5,9 @@ class Choice {
   constructor(attr) {
     this.name = attr.name;
     this.chosen = attr.chosen;
+    this.user_id = attr.user_id;
+    this.story_id = attr.story_id
+    this.checkpoint_id = attr.checkpoint_id
     Choice.all.push(this)
   }
   
@@ -30,5 +33,5 @@ class Choice {
   
 }
 
-let bus = new Choice({name: "Ride", chosen: false})
-let bar = new Choice({name: "Walk", chosen: false})
+let bus = new Choice({name: "Ride", chosen: false, checkpoint_id: 1})
+let bar = new Choice({name: "Walk", chosen: false, checkpoint_id: 2})
