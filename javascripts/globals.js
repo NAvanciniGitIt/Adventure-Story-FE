@@ -14,7 +14,9 @@ const swordPic = "<img src='avatars/Sword.png'>"
 /** Node Getters **/
 const main = () => document.getElementById("main");
 const form = () => document.getElementById("form");
+const check = () => document.getElementById("check");
 const nameInput = () => document.getElementById("name");
+const avatarInput = () => document.getElementById("avatar");
 const deletes = () => document.getElementById("delete");
 const deleteName = () => document.getElementById("deletename");
 
