@@ -2,6 +2,7 @@ class User {
 
   static baseUrl = "http://localhost:3000"
   static all = []
+  
 
   constructor(attr) {
     this.name = attr.name;
@@ -48,15 +49,15 @@ class User {
   static nameTemplate() {
 
     return `
-    <h2>Welcome Adventurer!</h2>
+    <h2>You there! Yes, you!</h2>
     <h3>Tell us your name!</h3>
     <form id="form">
       <div class="input-field">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name">
+        <p><label for="name">Name:</label>
+        <input type="text" name="name" id="name"></p>
       </div>
-      <input type="submit" value="Create Hero">
-    </form>  
+      <p><input type="submit" value="Create Hero"></p>
+    </form>
       `
   
   }
@@ -64,8 +65,8 @@ class User {
   static avatarTemplate() {
     
     return `
-    <h3>Choose your Avatar</h3> 
-  <img src="avatars/Archer.png">
+    <h2>You look in the mirror...</h2> 
+  <p><img src="avatars/Archer.png">
   <input type="hidden" id="avatar" value="<img src='avatars/Archer.png'>">
   <input type="submit" value="Choose" onclick="return archer()">
   <img src="avatars/Basic.png">
@@ -82,7 +83,7 @@ class User {
   <input type="submit" value="Choose" onclick="return rogue()">
   <img src="avatars/Sword.png">
   <input type="hidden" id="avatar" value="<img src='avatars/Sword.png'>">
-  <input type="submit" value="Choose" onclick="return sword()">
+  <input type="submit" value="Choose" onclick="return sword()"></p>
 
   `;
   
@@ -91,13 +92,13 @@ class User {
   static editFormTemplate(id) {
 
     return `
-    <h3>Edit Hero</h3>
+    <h3>Edit Hero Name:</h3>
     <form id="form" data-id="${id}">
-      <div class="input-field">
-        <label for="name">Name</label> <br><br>
-        <input type="text" name="name" id="name" value="${current_user.name}" />
+      <p><div class="input-field"></p>
+       <p><label for="name">Name</label> </p>
+        <p><input type="text" name="name" id="name" value="${current_user.name}" /></p>
       </div>
-      <input type="submit" id="submit" value="Submit" >
+      <p><input type="submit" id="submit" value="Submit" ></p>
     
     `;
 
@@ -207,20 +208,20 @@ class User {
   static confirmUserForm() {
     
     return `
-    <h3> Alright ${current_user.name}! Are you satisfied 
-    with your hero?! </h3>
+    <h3>Ready to begin your journey, ${current_user.name.capitalize()}?</h3>
    
   
-    <input type="submit" value="Yes i'm ready!" onclick="return Story.renderPartOne()">
-    <br><br>
-    <input type="submit" value="Edit" onclick="return User.renderEditFormTemplate(${current_user.id})">
+   <p><input type="submit" value="Onward!" onclick="return Story.renderPartOne()"></p>
+    <br>
+    <p>Or have you forgotten something?</p>
+    <p><input type="submit" value="Edit" onclick="return User.renderEditFormTemplate(${current_user.id})"></p>
     <br><br>
     <form id="delete">
       <div class="input-field">
-        <label for="delete">Type name to Delete</label> <br>
+        <p><label for="delete">If neither, type your name to delete</label> <br>
         <input type="text" name="deletename" id="deletename">
-      </div>
-      <input type="submit" value="Are you sure?">
+      </div></p>
+      <p><input type="submit" value="Are you sure?"></p>
     </form>
     `
   }
