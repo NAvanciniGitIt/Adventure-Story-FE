@@ -47,8 +47,10 @@ class Story {
   static storyTemplate() {
 
     return `
-    <div class="container">
-    <div id="parent"><h2>Welcome Adventurer!</h2><br></div><div id"border"></div>
+    <div class="typewriter">
+    <div class="typewriter-text"><h2>Welcome Adventurer!</h2></div><br></div>
+    <div id"border"></div>
+    
   <p>Would you like to begin a new adventure?<input type="submit" value="Yes" onclick="return User.renderNameTemplate()"></p>
   
   <p>Or continue your story?</p>
@@ -78,14 +80,13 @@ class Story {
     main().innerHTML = 
     `
     <div class="container">
-      <h3>Adventure awaits ${current_user.name.capitalize()}!</h3> <br> 
+      <h2>Adventure awaits ${current_user.name.capitalize()}!</h2> <br> 
       <p> ${current_user.avatar}</p>
-      <br>
       <p> Filler Text
-
       Choices
-        ${Choice.choiceTemplate()}</p>
-    </div>`
+      ${Choice.choiceTemplate()}</p>
+      </div>
+        `;
   }
 
   static renderPartTwo(choice) {
