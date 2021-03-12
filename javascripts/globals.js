@@ -7,12 +7,25 @@ let avatar = "";
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
-const archerPic = "<img src='avatars/Archer.png'></img>"
-const basicPic = "<img src='avatars/Basic.png'>"
-const magePic = "<img src='avatars/Mage.png'>"
-const sciencePic = "<img src='avatars/Science.png'>"
-const roguePic = "<img src='avatars/Rogue.png'>"
-const swordPic = "<img src='avatars/Sword.png'>"
+
+// User Avatars 
+const archerPic = "<img src='avatars/heroarcher.gif' style='transform: scaleX(-1)';></img>"
+const bardPic = "<img src='avatars/herobardd.gif' style='transform: scaleX(-1)';>"
+const druidPic = "<img src='avatars/herodruid.gif' style='transform: scaleX(-1)';>"
+const swordPic = "<img src='avatars/herosword.gif' style='transform: scaleX(-1)';>"
+const diePic = "<img class='die' src='avatars/die.png' width='50' height='50'></img>"
+
+// Avatar Variables
+const archer = () => User.avatarFetch(archerPic)
+const bard = () => User.avatarFetch(bardPic)
+const druid = () => User.avatarFetch(druidPic)
+const sword = () => User.avatarFetch(swordPic)
+
+
+// Choice Variables
+const ride = () => (bus.chosen = true, Story.renderPartTwo("ride"))
+const walk = () => (bar.chosen = true, Story.renderPartTwo("walk"))
+
 
 /** Node Getters **/
 const main = () => document.getElementById("main");
