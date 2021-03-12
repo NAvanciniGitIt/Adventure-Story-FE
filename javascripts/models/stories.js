@@ -1,6 +1,6 @@
 class Story {
   static all = []
-
+  
   constructor(attr){
     this.check_points = attr.check_points;
   }
@@ -16,6 +16,8 @@ class Story {
     return story
 
   }
+
+ 
 
 
   static createStoryObj() {
@@ -45,17 +47,19 @@ class Story {
   static storyTemplate() {
 
     return `
-    <h2>Welcome Adventurer!</h2><br>
-  Would you like to begin a new adventure <input type="submit" value="Yes" onclick="return User.renderNameTemplate()">
+    <div class="container">
+    <div id="parent"><h2>Welcome Adventurer!</h2><br></div><div id"border"></div>
+  <p>Would you like to begin a new adventure?<input type="submit" value="Yes" onclick="return User.renderNameTemplate()"></p>
   
-  Or enter name to continue?
+  <p>Or continue your story?</p>
   <form id="form">
-    <div class="input-field">
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name">
+    <p><div class="input-field"></p>
+      <p><label for="name">Type Name Here:</label></p>
+      <p><input type="text" name="name" id="name"></p>
     </div>
-    <input type="submit" value="Continue">
+    <p><input type="submit" value="Continue"></p>
   </form>
+  </div>
     `
   
   }
@@ -73,15 +77,15 @@ class Story {
     resetMain() 
     main().innerHTML = 
     `
-    <h3>Adventure awaits ${current_user.name}!</h3> <br> 
-    ${current_user.avatar}
-    <img src="backgrounds/pixelforest.jpg"  width="400" height="200">
-    <br>
-   Filler Text
+    <div class="container">
+      <h3>Adventure awaits ${current_user.name.capitalize()}!</h3> <br> 
+      <p> ${current_user.avatar}</p>
+      <br>
+      <p> Filler Text
 
-   Choices
-    ${Choice.choiceTemplate()}
-    `
+      Choices
+        ${Choice.choiceTemplate()}</p>
+    </div>`
   }
 
   static renderPartTwo(choice) {
