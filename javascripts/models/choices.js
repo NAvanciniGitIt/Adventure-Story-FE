@@ -16,13 +16,14 @@ class Choice {
   static choiceTemplate(){
     
     return `
-    <h3> Make a choice, user! </h3> 
-    ${bus.name} <input type="hidden" id="bus" >
-    <input type="submit" value="Choice 1" onclick="return ride()"> &nbsp;
+    <div class="container">
+    <h3> Make a choice, ${current_user.name.capitalize()}! </h3> 
+    <p>${bus.name} <input type="hidden" id="bus" ></p>
+    <p><input type="submit" value="Choice 1" onclick="return ride()"></p> 
 
-    ${bar.name} <input type="hidden" id="bar" >
-    <input type="submit" value="Choice 2" onclick="return walk()">
-    
+    <p style="color:white;">${bar.name} <input type="hidden" id="bar" ></p>
+    <p><input type="submit" value="Choice 2" onclick="return walk()"></p>
+    </div>
     `
     
   }
