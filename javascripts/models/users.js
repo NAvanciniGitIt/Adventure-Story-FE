@@ -330,7 +330,7 @@ class User {
     })
     
 
-    Story.renderStoryTemplate()
+    Story.renderIntroTemplate()
   }
   
 

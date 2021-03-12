@@ -30,7 +30,7 @@ function rollTemplate() {
     document.addEventListener("DOMContentLoaded", function() { 
       if(User.all.length == 0) {
         User.getUsers()
-        Story.renderStoryTemplate()
+        Story.renderIntroTemplate()
         Story.getStories()
       }
       else {

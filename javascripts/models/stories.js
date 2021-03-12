@@ -44,7 +44,7 @@ class Story {
     
   }
 
-  static storyTemplate() {
+  static introTemplate() {
 
     return `
     <div class="typewriter">
@@ -66,10 +66,10 @@ class Story {
   
   }
 
-  static renderStoryTemplate() {
+  static renderIntroTemplate() {
 
     resetMain()
-    main().innerHTML = Story.storyTemplate()
+    main().innerHTML = Story.introTemplate()
     form().addEventListener("submit", User.findName)
     
   }
