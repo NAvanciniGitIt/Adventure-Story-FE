@@ -29,6 +29,15 @@ class User {
 
     e.preventDefault()
 
+    let user = User.findsNameOne(e)
+    
+
+    if(nameInput().value == user.name) {
+      
+      User.renderNameErrorTemplate()
+    }
+    else {
+
     let strongParams = {
       user: {
         name: nameInput().value,
@@ -45,6 +54,9 @@ class User {
       current_user = data
     })
   }
+}
+
+// Templates
 
   static nameTemplate() {
 
@@ -66,27 +78,51 @@ class User {
     
     return `
     <h2>You look in the mirror...</h2> 
-  <p><img src="avatars/Archer.png">
-  <input type="hidden" id="avatar" value="<img src='avatars/Archer.png'>">
-  <input type="submit" value="Choose" onclick="return archer()">
-  <img src="avatars/Basic.png">
-  <input type="hidden" id="avatar" value="<img src='avatars/Basic.png'>">
-  <input type="submit" value="Choose" onclick="return basic()">
-  <img src="avatars/Mage.png">
-  <input type="hidden" id="avatar" value="<img src='avatars/Mage.png'>">
-  <input type="submit" value="Choose" onclick="return mage()">
-  <img src="avatars/Science.png">
-  <input type="hidden" id="avatar" value="<img src='avatars/Science.png'>">
-  <input type="submit" value="Choose" onclick="return science()">
-  <img src="avatars/Rogue.png">
-  <input type="hidden" id="avatar" value="<img src='avatars/Rogue.png'>">
-  <input type="submit" value="Choose" onclick="return rogue()">
-  <img src="avatars/Sword.png">
-  <input type="hidden" id="avatar" value="<img src='avatars/Sword.png'>">
-  <input type="submit" value="Choose" onclick="return sword()"></p>
-
+  <div class="container">
+    <p>
+      <div class="row">
+        <div class="column">
+        <button onclick="return archer()" style="background-color: transparent" >
+        ${archerPic}</button>
+        <input type="hidden" id="avatar" value="<img src='avatars/heroarcher.gif' style='background-color:transparent'>">
+      </div>
+      <div class="column">
+        <button onclick="return bard()" style="background-color: transparent" >
+      ${bardPic}</button>
+        <input type="hidden" id="avatar" value="<img src='avatars/herobardd.gif' style='background-color:transparent'>">
+      </div>
+      <div class="column">
+        <button onclick="return druid()" style="background-color: transparent" >
+    ${druidPic}</button>
+        <input type="hidden" id="avatar" value="<img src='avatars/herodruid.gif' style='background-color:transparent'>">
+      </div>
+      <div class="column">
+        <button onclick="return sword()" style="background-color: transparent" >
+  ${swordPic}</button>
+        <input type="hidden" id="avatar" value="<img src='avatars/herosword.gif' style='background-color:transparent'>">
+      </div>
+    </div>
+  </p> 
+  </div>
   `;
   
+  }
+
+  static confirmUserForm() {
+    
+    return `
+    <h3>Ready to begin your journey, ${current_user.name.capitalize()}?</h3>
+   <p><input type="submit" value="Onward!" onclick="return Story.renderPartOne()"></p>
+    <p>Or have you forgotten something?</p>
+    <p><input type="submit" value="Edit" onclick="return User.renderEditFormTemplate(${current_user.id})"></p>
+    <form id="delete">
+      <div class="input-field">
+        <p><label for="delete">If neither, type your name to delete</label> <br>
+        <input type="text" name="deletename" id="deletename">
+      </div></p>
+      <p><input type="submit" value="Are you sure?"></p>
+    </form>
+    `;
   }
 
   static editFormTemplate(id) {
@@ -104,51 +140,28 @@ class User {
 
   }
 
-  static renderEditFormTemplate(user) {
-    
-    resetMain();
-    main().innerHTML = User.editFormTemplate(user);
-    form().addEventListener("submit", User.submitEditForm);
-  }
+  static nameErrorTemplate() {
 
-
-  static submitEditForm(e) {
-
-    e.preventDefault();
-  
-    let strongParams = {
-      user: {
-        name: nameInput().value,
-        avatar: "",
-        story_id: current_user.story_id
-      }
-    }
-   
-
-    const id = e.target.dataset.id;
-    
-    Api.patch("/users/" + id, strongParams)
-      .then(function(data) {
+    return `
+    <div class="container">
+      <h1>Enter your Hero's Name</h1>
+      <br>
+      <h2 style="color:red;"> That name is already taken! Please choose another! </h2>
+      <form id="form">
+      <div class="input-field">
         
-        let u = User.all.find((u) => u.id == data.id);
-        let idx = User.all.indexOf(u);
-        User.all[idx] = new User(data);
-        current_user.name = nameInput().value
-        User.renderAvatarTemplate()
-        
-      })
+        <p> <input type="text" name="name" id="name"> </p>
+      </div>
+      <p> <input type="submit" value="Create Hero"> </p>
+      </form>
+      </div>
+      `;
+
 
   }
 
-  static renderNameTemplate() {
-
-    resetMain()
-    Story.createStoryObj()
-    main().innerHTML = User.nameTemplate()
-    form().addEventListener("submit", User.submitName)
-    
   
-  }
+  // Find Methods
 
   static findName(e) {
 
@@ -198,6 +211,76 @@ class User {
     return name
   }
 
+  static findsNameOne(e) {
+    e.preventDefault()
+    
+    let name = nameInput().value
+    
+    User.all.forEach(function (user){
+      if(name == user.name){
+        name = user
+      
+      }
+    })
+    return name
+  }
+
+  // Renders && Submits
+
+  static renderNameTemplate() {
+
+    resetMain()
+    Story.createStoryObj()
+    main().innerHTML = User.nameTemplate()
+    form().addEventListener("submit", User.submitName)
+    
+  
+  }
+
+  static renderNameErrorTemplate() {
+
+    resetMain()
+    main().innerHTML = User.nameErrorTemplate()
+    form().addEventListener("submit", User.submitName)
+  
+  }
+
+  static renderEditFormTemplate(user) {
+    
+    resetMain();
+    main().innerHTML = User.editFormTemplate(user);
+    form().addEventListener("submit", User.submitEditForm);
+  }
+
+
+  static submitEditForm(e) {
+
+    e.preventDefault();
+  
+    let strongParams = {
+      user: {
+        name: nameInput().value,
+        avatar: "",
+        story_id: current_user.story_id
+      }
+    }
+   
+
+    const id = e.target.dataset.id;
+    
+    Api.patch("/users/" + id, strongParams)
+      .then(function(data) {
+        
+        let u = User.all.find((u) => u.id == data.id);
+        let idx = User.all.indexOf(u);
+        User.all[idx] = new User(data);
+        current_user.name = nameInput().value
+        User.renderAvatarTemplate()
+        
+      })
+
+  }
+
   static renderAvatarTemplate() {
 
     resetMain()
@@ -205,26 +288,6 @@ class User {
    
   }
 
-  static confirmUserForm() {
-    
-    return `
-    <h3>Ready to begin your journey, ${current_user.name.capitalize()}?</h3>
-   
-  
-   <p><input type="submit" value="Onward!" onclick="return Story.renderPartOne()"></p>
-    <br>
-    <p>Or have you forgotten something?</p>
-    <p><input type="submit" value="Edit" onclick="return User.renderEditFormTemplate(${current_user.id})"></p>
-    <br><br>
-    <form id="delete">
-      <div class="input-field">
-        <p><label for="delete">If neither, type your name to delete</label> <br>
-        <input type="text" name="deletename" id="deletename">
-      </div></p>
-      <p><input type="submit" value="Are you sure?"></p>
-    </form>
-    `
-  }
 
   static renderConfirmUserForm() {
     resetMain()
@@ -270,6 +333,8 @@ class User {
     Story.renderStoryTemplate()
   }
   
+
+
 }
 
 
