@@ -1,16 +1,8 @@
-const archer = () => User.avatarFetch(archerPic)
-const basic = () => User.avatarFetch(basicPic)
-const mage = () => User.avatarFetch(magePic)
-const science = () => User.avatarFetch(sciencePic)
-const rogue = () => User.avatarFetch(roguePic)
-const sword = () => User.avatarFetch(swordPic)
-const ride = () => (bus.chosen = true, Story.renderPartTwo("ride"))
-const walk = () => (bar.chosen = true, Story.renderPartTwo("walk"))
-
 function resetMain() {
   main().innerHTML = ""
 }
 
+// Dice rolling stuff
 function rollDie() {
   min = Math.ceil(1);
   max = Math.floor(7);
@@ -28,12 +20,23 @@ function rollDisplay() {
 
 function rollTemplate() {
   return `
-  <h3> Skill Check! </h3>
+  <h1 style="color:red;"> Skill Check! </h1>
   <input type="hidden" id="roll" >
-  <button onclick="return rollDisplay()" id="Ok"><img src="avatars/dice.jpg" width="50" height="50"></button>
+  <p> <button onclick="return rollDisplay() " style="background-color: transparent" id="Ok">${diePic}</button> </p>
   `
-
+  
 }
+
+    document.addEventListener("DOMContentLoaded", function() { 
+      if(User.all.length == 0) {
+        User.getUsers()
+        Story.renderStoryTemplate()
+        Story.getStories()
+      }
+      else {
+    
+      }
+    })
 
   // function storiesFetch(user_id) {
   
@@ -61,15 +64,3 @@ function rollTemplate() {
   //   })
   
   // }
-  
-
-document.addEventListener("DOMContentLoaded", function() { 
-  if(User.all.length == 0) {
-    User.getUsers()
-    Story.renderStoryTemplate()
-    Story.getStories()
-  }
-  else {
-
-  }
-})
