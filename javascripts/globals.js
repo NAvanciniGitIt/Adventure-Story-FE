@@ -23,8 +23,8 @@ const sword = () => User.avatarFetch(swordPic)
 
 
 // Choice Variables
-const ride = () => (bus.chosen = true, Story.renderPartTwo("ride"))
-const walk = () => (bar.chosen = true, Story.renderPartTwo("walk"))
+const ride = () => (bus.chosen = true, current_story.check_points = bus.checkpoint_id, Story.updateCheckPoint(bus.checkpoint_id), Story.renderPartTwo("ride"))
+const walk = () => (bar.chosen = true, current_story.check_points = bar.checkpoint_id, Story.updateCheckPoint(bar.checkpoint_id), Story.renderPartTwo("walk"))
 
 
 /** Node Getters **/

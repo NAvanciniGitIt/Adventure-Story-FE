@@ -12,11 +12,19 @@ function rollDie() {
 
 function rollDisplay() {
   resetMain()
-  main().innerHTML = `
- ${rollDie()}
-  `
-
+  if(rollDie() > 3 ){
+    main().innerHTML =
+    ` <h1>You rolled a ${rollDie()}!!! You Win! </h1>
+    <p><input type="submit" value="Home" onclick="return Story.renderIntroTemplate(${current_user.id})"></p> `
 }
+  else {
+    main().innerHTML = `
+    <h1>You rolled a ${rollDie()}!!! You Lose! </h1> 
+    <p><input type="submit" value="Home" onclick="return Story.renderIntroTemplate(${current_user.id})"></p>
+    `
+  }
+}
+
 
 function rollTemplate() {
   return `
