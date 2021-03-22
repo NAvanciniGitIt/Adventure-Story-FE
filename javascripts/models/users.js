@@ -190,15 +190,15 @@ class User {
     const check = current_story.check_points
     switch(check) {
       case 1:
-        Story.renderPartTwo("ride")
+        Story.renderPartTwo("choice2")
         break
 
       case 2: 
-        Story.renderPartTwo("walk")
+        Story.renderPartTwo("choice1")
         break
 
       default:
-        Story.renderPartOne()
+        Story.renderPartOne(choice1, choice2)
     }
 
   }
