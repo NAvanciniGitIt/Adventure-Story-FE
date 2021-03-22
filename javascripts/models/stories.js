@@ -24,7 +24,6 @@ class Story {
   
     let strongParams = {
       story: {
-        user_id: "",
         check_points: 0
       }
     }
@@ -92,22 +91,18 @@ class Story {
   static renderPartTwo(choice) {
 
     resetMain()
-    if(choice == "walk") {
+    if(choice == "choice1") {
     main().innerHTML = `
-    <h3> Filler Text for choice 2 
-    
-    Roll</h3>
-    ${rollTemplate()}
+    <h3> Filler Text for choice 1 
 
     `
   }
-    if(choice == "ride") {
+    else if(choice == "choice2") {
       main().innerHTML = `
-      <h3>Filler text for choice 1 </h3>
+      <h3>Filler text for choice 2 </h3>
+      Roll</h3>
+    ${rollTemplate()}
     `
-    }
-    else {
-      main().innerHTML
     }
   
   }
