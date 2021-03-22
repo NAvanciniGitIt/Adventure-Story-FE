@@ -12,16 +12,22 @@ function rollDie() {
 
 function rollDisplay() {
   resetMain()
-  if(rollDie() > 3 ){
+  let num = rollDie()
+  if(num > 3 ){
+    console.log(num)
     main().innerHTML =
-    ` <h1>You rolled a ${rollDie()}!!! You Win! </h1>
+    ` <h1>You rolled a ${num}!!! You Win! </h1>
     <p><input type="submit" value="Home" onclick="return Story.renderIntroTemplate(${current_user.id})"></p> `
 }
-  else {
+  else if(num < 3 ) {
+    console.log(num)
     main().innerHTML = `
-    <h1>You rolled a ${rollDie()}!!! You Lose! </h1> 
+    <h1>You rolled a ${num}!!! You Lose! </h1> 
     <p><input type="submit" value="Home" onclick="return Story.renderIntroTemplate(${current_user.id})"></p>
     `
+  }
+  else {
+    main.innerHTML = `${rollTemplate()}`
   }
 }
 
@@ -46,29 +52,4 @@ function rollTemplate() {
       }
     })
 
-  // function storiesFetch(user_id) {
-  
-  //   strongParams = {
-  //     story: {
-  //       user_id: current_user.id,
-  //       check_points: 0
-  //     }
-  //   }
-  
-  
-  //   fetch(baseUrl + `/stories/${current_story.id}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Accept": "application/json",
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(strongParams)
-  //   })
-  //   .then(function(resp) {
-  //     return resp.json()
-  //   })
-  //   .then(function(data){
-  //     Story.current_story = data
-  //   })
-  
-  // }
+
