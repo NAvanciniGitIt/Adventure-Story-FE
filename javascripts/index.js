@@ -14,13 +14,11 @@ function rollDisplay() {
   resetMain()
   let num = rollDie()
   if(num > 3 ){
-    console.log(num)
     main().innerHTML =
     ` <h1>You rolled a ${num}!!! You Win! </h1>
     <p><input type="submit" value="Home" onclick="return Story.renderIntroTemplate(${current_user.id})"></p> `
 }
   else if(num < 3 ) {
-    console.log(num)
     main().innerHTML = `
     <h1>You rolled a ${num}!!! You Lose! </h1> 
     <p><input type="submit" value="Home" onclick="return Story.renderIntroTemplate(${current_user.id})"></p>
