@@ -3,6 +3,7 @@ const baseUrl = "http://localhost:3000"
 let stories = [];
 let current_user = "";
 let current_story = "";
+let current_checkpoint = "";
 let avatar = "";
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -23,8 +24,8 @@ const sword = () => User.avatarFetch(swordPic)
 
 
 // Choice Variables
-const ride = () => (bus.chosen = true, current_story.check_points = bus.checkpoint_id, Story.updateCheckPoint(bus.checkpoint_id), Story.renderPartTwo("ride"))
-const walk = () => (bar.chosen = true, current_story.check_points = bar.checkpoint_id, Story.updateCheckPoint(bar.checkpoint_id), Story.renderPartTwo("walk"))
+const c1 = () => (Choice.createChoiceObj("choice1", 1),  Story.updateCheckPoint(1), Story.renderPartTwo("choice1"))
+const c2 = () => (Choice.createChoiceObj("choice2", 2), Story.updateCheckPoint(2), Story.renderPartTwo("choice2"))
 
 
 /** Node Getters **/
