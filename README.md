@@ -9,4 +9,5 @@
 
 
  ## Usage 
-  To run this program, run `rails s` in the back-end console, then open the index.html from the front end to use the application, and then follow along with the instructions provided to you in the project.  
+  Make sure to run `bundle install` and `rails db:migrate` on Adventure Story-BE before proceeding!
+  To run this program, run `rails s` in the back-end console, then open the index.html on your browser from the front end to use the application, and follow along with the instructions provided to you in the project.  
