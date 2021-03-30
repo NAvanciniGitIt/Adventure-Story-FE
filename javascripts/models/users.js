@@ -23,6 +23,7 @@ class User {
     
     const data = await Api.get('/users');
     User.all = data
+   
   }
 
   static submitName(e) {
@@ -337,9 +338,17 @@ class User {
 
     Story.renderIntroTemplate()
   }
+
+   static renderUsers = () => {
+     let usersList = document.getElementById('main')
+     User.all.forEach(user => {
+       usersList.innerHTML +=
+       `
+       <p>${user.name}<p>
+       `
+     })
+  }
   
-
-
 }
 
 

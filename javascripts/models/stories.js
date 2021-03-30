@@ -51,19 +51,22 @@ class Story {
     <div id"border"></div>
     
   <p>Would you like to begin a new adventure?<input type="submit" value="Yes" onclick="return User.renderNameTemplate()"></p>
-  
   <p>Or continue your story?</p>
   <form id="form">
-    <p><div class="input-field"></p>
-      <p><label for="name">Type Name Here:</label></p>
-      <p><input type="text" name="name" id="name"></p>
-    </div>
-    <p><input type="submit" value="Continue"></p>
+  <p><div class="input-field"></p>
+  <p><label for="name">Type Name Here:</label></p>
+  <p><input type="text" name="name" id="name"></p>
+  </div>
+  <p><input type="submit" value="Continue"></p>
   </form>
+  <p>Current Heroes! 
+  <input type="submit" value="All Heroes" onclick="return User.renderUsers()">
+  </p>
   </div>
     `
   
   }
+
 
   static renderIntroTemplate() {
 
